@@ -1,0 +1,443 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Fim do Trabalho Escravo — Informe e Denuncie</title>
+  <meta name="description" content="Site informativo e interativo sobre trabalho escravo: legislação, histórias reais, como denunciar e como ajudar." />
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Leaflet (map) -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-sA+e2Xk6m2v5bqg1m3bQmZ0V1X0h8s9Yw2v+8qC6rQA=" crossorigin="" />
+
+  <style>
+    :root{
+      --bg: #fbfbfb;
+      --card: #ffffff;
+      --accent: #d32f2f;
+      --muted: #6b6f76;
+      --success: #2e7d32;
+      --glass: rgba(255,255,255,0.7);
+      --radius: 14px;
+      --shadow: 0 8px 28px rgba(15,15,15,0.06);
+      font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0;background:linear-gradient(180deg,#ffffff 0%, #fbfbfb 100%);color:#111}
+    a{color:inherit}
+
+    .container{max-width:1100px;margin:28px auto;padding:20px}
+
+    header{display:flex;align-items:center;justify-content:space-between;gap:16px}
+    .logo{display:flex;align-items:center;gap:12px}
+    .logo .brand{font-weight:800;font-size:18px}
+    nav{display:flex;gap:10px}
+    nav a{padding:8px 12px;border-radius:10px;text-decoration:none;font-weight:600;color:var(--muted)}
+    nav a.cta{background:var(--accent);color:#fff}
+
+    .hero{display:grid;grid-template-columns:1fr 420px;gap:28px;align-items:center;margin-top:18px}
+    .hero-card{background:var(--card);padding:28px;border-radius:18px;box-shadow:var(--shadow);overflow:hidden}
+    .hero h1{margin:0;font-size:30px;line-height:1.02}
+    .hero p{color:var(--muted);margin:12px 0 18px}
+    .cta-row{display:flex;gap:12px}
+    .btn{padding:12px 16px;border-radius:12px;border:0;font-weight:700;cursor:pointer}
+    .btn.primary{background:var(--accent);color:#fff}
+    .btn.ghost{background:transparent;border:1px solid #eee}
+
+    .stats{display:flex;gap:12px;margin-top:16px}
+    .stat{flex:1;background:linear-gradient(180deg, rgba(211,47,47,0.04), transparent);padding:14px;border-radius:12px}
+    .stat strong{display:block;font-size:22px}
+    .stat span{color:var(--muted);font-size:13px}
+
+    section{margin-top:36px}
+    .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+    .card{background:var(--card);padding:18px;border-radius:12px;box-shadow:var(--shadow)}
+
+    .timeline{display:flex;flex-direction:column;gap:12px}
+    .event{display:flex;gap:12px;align-items:flex-start}
+    .event .dot{width:12px;height:12px;border-radius:50%;background:var(--accent);margin-top:6px}
+
+    .stories{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+    .story p{color:var(--muted);font-size:14px}
+
+    .map{height:320px;border-radius:12px;overflow:hidden;border:1px solid #eee}
+
+    .quiz .question{font-weight:600}
+    .options{display:flex;flex-direction:column;gap:8px;margin-top:8px}
+    .option{padding:10px;border-radius:10px;border:1px solid #eee;cursor:pointer}
+    .option.selected{border-color:var(--accent);background:rgba(211,47,47,0.05)}
+
+    footer{margin-top:36px;padding:18px;border-radius:12px;background:linear-gradient(180deg,#fff,#fbfbfb);display:flex;justify-content:space-between;align-items:center}
+
+    @media (max-width:980px){
+      .hero{grid-template-columns:1fr}
+      .grid-3{grid-template-columns:1fr}
+      .stories{grid-template-columns:1fr}
+    }
+
+    /* Fade-in reveal */
+    .reveal{opacity:0;transform:translateY(14px);transition:opacity .6s ease, transform .6s ease}
+    .reveal.visible{opacity:1;transform:none}
+
+    /* Counter style */
+    .counter{font-size:28px;font-weight:800}
+
+    /* Small animations */
+    .chain{width:100%;height:12px;background:linear-gradient(90deg,rgba(211,47,47,0.12),transparent);border-radius:8px;overflow:hidden}
+    .chain span{display:block;height:100%;width:30%;background:linear-gradient(90deg,rgba(211,47,47,0.25),rgba(211,47,47,0.05));animation:move 5s linear infinite}
+    @keyframes move{from{transform:translateX(-30%)}to{transform:translateX(130%)}}
+
+    a:focus,button:focus{outline:3px solid rgba(0,120,255,0.12);outline-offset:2px}
+    .muted{color:var(--muted)}
+
+    /* image helpers */
+    .media-hero{width:100%;height:220px;border-radius:12px;object-fit:cover;margin-top:14px}
+  </style>
+</head>
+<body>
+  <main class="container" id="top">
+
+    <header>
+      <div class="logo" aria-label="logo do site">
+        <svg width="44" height="44" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <rect x="1" y="1" width="22" height="22" rx="6" fill="#d32f2f" />
+          <path d="M6 12h12" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+        <div>
+          <div class="brand">Fim do Trabalho Escravo</div>
+          <div class="muted" style="font-size:12px">Informe • Denuncie • Ajude</div>
+        </div>
+      </div>
+
+      <nav aria-label="Navegação principal">
+        <a href="#sobre">Sobre</a>
+        <a href="#como-ajudar">Como Ajudar</a>
+        <a href="#noticias">Notícias</a>
+        <a href="#denunciar" class="cta">Denunciar</a>
+      </nav>
+    </header>
+
+    <!-- HERO -->
+    <div class="hero">
+      <div class="hero-card reveal">
+        <h1>O trabalho escravo existe hoje — saiba o que é, como identificar e como agir.</h1>
+        <p>Informações, legislação, histórias reais e ferramentas para denunciar. Este site foi pensado para ser acessível e direto.</p>
+
+        <img class="media-hero" src="https://source.unsplash.com/800x600/?workers,labor" alt="Trabalho e mãos" />
+
+        <div class="cta-row">
+          <button class="btn primary" onclick="document.getElementById('denunciar').scrollIntoView({behavior:'smooth'})">Denunciar agora</button>
+          <button class="btn ghost" onclick="document.getElementById('sobre').scrollIntoView({behavior:'smooth'})">Saiba mais</button>
+        </div>
+
+        <div class="stats" role="list" aria-label="Estatísticas rápidas">
+          <div class="stat" role="listitem"><div class="counter" data-target="1200">0</div><span>Casos notificados (últimos anos)</span></div>
+          <div class="stat" role="listitem"><div class="counter" data-target="20">0</div><span>Estados com registros</span></div>
+          <div class="stat" role="listitem"><div class="counter" data-target="34">0</div><span>ONGs parceiras</span></div>
+        </div>
+
+        <div style="margin-top:14px">
+          <div class="small muted">Linha do tempo</div>
+          <div class="chain" aria-hidden="true"><span></span></div>
+        </div>
+
+      </div>
+
+      <aside style="display:flex;flex-direction:column;gap:12px">
+        <div class="card reveal" style="padding:18px;">
+          <strong>Como identificar</strong>
+          <ul class="muted" style="padding-left:18px;margin-top:8px">
+            <li>Jornada exaustiva sem descanso</li>
+            <li>Serviço forçado e ameaças</li>
+            <li>Retenção de documentos</li>
+          </ul>
+        </div>
+
+        <div class="card reveal" style="padding:18px;text-align:center">
+          <strong>Denúncias</strong>
+          <p class="muted" style="font-size:14px">Disque 100 — Ministério Público do Trabalho — Ou através do formulário abaixo.</p>
+          <button class="btn primary" style="margin-top:8px" onclick="document.getElementById('denunciar').scrollIntoView({behavior:'smooth'})">Denunciar</button>
+        </div>
+      </aside>
+    </div>
+
+    <!-- SOBRE -->
+    <section id="sobre">
+      <div class="card reveal">
+        <h2>O que é trabalho escravo?</h2>
+        <p class="muted">Trabalho escravo é um termo que engloba práticas como trabalho forçado, servidão por dívida, condições degradantes e jornada exaustiva. No Brasil, o crime está tipificado no artigo 149 do Código Penal e é objeto de ações de fiscalização por órgãos como o Ministério Público do Trabalho.</p>
+
+        <div style="margin-top:18px" class="timeline">
+          <div class="event"><div class="dot" aria-hidden></div><div><strong>Período colonial</strong><div class="muted">Origem histórica da escravidão no Brasil.</div></div></div>
+          <div class="event"><div class="dot" aria-hidden></div><div><strong>Abolição (1888)</strong><div class="muted">Fim legal da escravidão — porém, desigualdades persistem.</div></div></div>
+          <div class="event"><div class="dot" aria-hidden></div><div><strong>Hoje</strong><div class="muted">Formas contemporâneas: servidão, exploração, trabalho infantil ligado ao trabalho escravo.</div></div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- LEGISLAÇÃO E DIREITOS -->
+    <section aria-labelledby="legis" style="display:grid;grid-template-columns:1fr 320px;gap:16px;margin-top:18px">
+      <div class="card reveal">
+        <h2 id="legis">Legislação e direitos</h2>
+        <p class="muted">Resumo objetivo das principais medidas legais e direitos das vítimas — Legislação penal, proteção social, programas de apoio e assistência à reinserção.</p>
+        <ul class="muted" style="padding-left:18px">
+          <li>Art. 149 do Código Penal — trabalho escravo</li>
+          <li>Políticas públicas de assistência às vítimas</li>
+          <li>Atuação do Ministério Público do Trabalho e fiscais do trabalho</li>
+        </ul>
+      </div>
+
+      <aside class="card reveal" style="display:flex;flex-direction:column;gap:12px">
+        <strong>Links úteis</strong>
+        <a href="https://www.gov.br/mpt/pt-br" target="_blank" rel="noopener" class="muted">Ministério Público do Trabalho</a>
+        <a href="https://www.gov.br/pt-br/servicos/disque-100" target="_blank" rel="noopener" class="muted">Disque 100</a>
+        <a href="#" class="muted">Protocolos de atendimento a vítimas</a>
+      </aside>
+    </section>
+
+    <!-- HISTÓRIAS -->
+    <section>
+      <h3>Histórias reais</h3>
+      <div class="stories">
+        <div class="card story reveal">
+          <strong>Depoimento 1</strong>
+          <p class="muted">"Fui encontrado trabalhando sem receber e sem documentos. Hoje sou atendido por uma ONG e comecei a aprender outra profissão."</p>
+          <a href="#" class="muted">Saiba mais</a>
+        </div>
+
+        <div class="card story reveal">
+          <strong>Depoimento 2</strong>
+          <p class="muted">"Fui resgatada junto com outras pessoas em uma fazenda. A recuperação foi difícil, mas há redes de apoio."</p>
+          <a href="#" class="muted">Saiba mais</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- COMO AJUDAR -->
+    <section id="como-ajudar">
+      <div class="card reveal">
+        <h2>Como ajudar</h2>
+        <p class="muted">Denunciar é uma das medidas mais efetivas. Além disso: apoiar ONGs, compartilhar informação e participar em campanhas.</p>
+
+        <div style="display:flex;gap:12px;margin-top:12px;flex-wrap:wrap">
+          <div style="flex:1;min-width:220px" class="card">
+            <strong>Denunciar</strong>
+            <p class="muted">Disque 100 — Você pode denunciar anonimamente. Use o formulário abaixo ou outros canais oficiais.</p>
+          </div>
+
+          <div style="flex:1;min-width:220px" class="card">
+            <strong>Apoiar</strong>
+            <p class="muted">Conheça e apoie organizações que oferecem acolhimento, capacitação e acesso à justiça.</p>
+          </div>
+
+          <div style="flex:1;min-width:220px" class="card">
+            <strong>Compartilhar</strong>
+            <p class="muted">Espalhe informação correta: material educativo, vídeos e cartilhas.</p>
+          </div>
+        </div>
+
+      </div>
+
+      <div style="margin-top:12px" class="card reveal">
+        <h3>Mapa (interativo)</h3>
+        <div id="map" class="map" role="region" aria-label="Mapa ilustrativo de casos por região"></div>
+      </div>
+    </section>
+
+    <!-- QUIZ EXPANDIDO -->
+    <section class="card quiz reveal" aria-labelledby="quiz">
+      <h3 id="quiz">Quiz — Você identifica sinais de trabalho escravo?</h3>
+      <div class="muted">Escolha a melhor opção em cada pergunta e veja a pontuação ao final.</div>
+
+      <form id="quiz-form" style="margin-top:12px">
+        <ol>
+          <li>
+            <div class="question">1) Pessoa que não tem documentos e dorme onde trabalha — pode ser um sinal?</div>
+            <div class="options">
+              <label><input type="radio" name="q1" value="1"> Não — pode ser normal</label>
+              <label><input type="radio" name="q1" value="3"> Sim — sinal de exploração</label>
+              <label><input type="radio" name="q1" value="0"> Não sei</label>
+            </div>
+          </li>
+
+          <li style="margin-top:10px">
+            <div class="question">2) Patrão confisca documentos pessoais — é indício?</div>
+            <div class="options">
+              <label><input type="radio" name="q2" value="3"> Sim — forte indício</label>
+              <label><input type="radio" name="q2" value="1"> Às vezes</label>
+              <label><input type="radio" name="q2" value="0"> Não
+              </label>
+            </div>
+          </li>
+
+          <li style="margin-top:10px">
+            <div class="question">3) Jornada exaustiva sem folgas — deve-se investigar?</div>
+            <div class="options">
+              <label><input type="radio" name="q3" value="3"> Sim — possível trabalho forçado</label>
+              <label><input type="radio" name="q3" value="1"> Depende</label>
+              <label><input type="radio" name="q3" value="0"> Não</label>
+            </div>
+          </li>
+
+          <li style="margin-top:10px">
+            <div class="question">4) Recebeu denúncias de ameaças e retenção de salário — o que fazer?</div>
+            <div class="options">
+              <label><input type="radio" name="q4" value="3"> Denunciar imediatamente</label>
+              <label><input type="radio" name="q4" value="1"> Tentar diálogo</label>
+              <label><input type="radio" name="q4" value="0"> Ignorar</label>
+            </div>
+          </li>
+        </ol>
+
+        <div style="margin-top:12px"><button type="button" class="btn primary" onclick="gradeQuiz()">Ver resultado</button></div>
+        <div id="quiz-result" style="margin-top:12px" aria-live="polite"></div>
+      </form>
+    </section>
+
+    <!-- NOTÍCIAS -->
+    <section id="noticias">
+      <h3>Notícias e atualizações</h3>
+      <div class="grid-3" style="margin-top:12px">
+        <div class="card reveal"><strong>Operação de fiscalização</strong><div class="muted">Ação conjunta resgata trabalhadores e autua estabelecimentos.</div></div>
+        <div class="card reveal"><strong>Campanha de conscientização</strong><div class="muted">Novas cartilhas e materiais educativos distribuídos em escolas.</div></div>
+        <div class="card reveal"><strong>Legislação</strong><div class="muted">Atualizações e protocolos de atendimento às vítimas.</div></div>
+      </div>
+    </section>
+
+    <!-- DENUNCIAR -->
+    <section id="denunciar" style="margin-top:18px">
+      <div class="card reveal">
+        <h3>Formulário de denúncia (orientativo)</h3>
+        <p class="muted">Preencha com o máximo de informações possível. Caso prefira, denuncie por telefone (Disque 100) ou procure o Ministério Público do Trabalho.</p>
+
+        <form id="denuncia-form" onsubmit="return submitDenuncia(event)" aria-label="Formulário de denúncia">
+          <div style="display:flex;gap:12px;flex-wrap:wrap">
+            <input name="nome" placeholder="Seu nome (opcional)" style="flex:1;padding:10px;border-radius:8px;border:1px solid #eee" />
+            <input name="contato" placeholder="Contato (telefone ou e-mail opcional)" style="flex:1;padding:10px;border-radius:8px;border:1px solid #eee" />
+          </div>
+
+          <div style="margin-top:12px">
+            <textarea name="descricao" required placeholder="Descreva o caso: local, horário, condições, nomes (se souber)" style="width:100%;min-height:120px;padding:12px;border-radius:8px;border:1px solid #eee"></textarea>
+          </div>
+
+          <div style="display:flex;gap:12px;margin-top:12px;align-items:center">
+            <label style="display:flex;gap:8px;align-items:center"><input type="checkbox" name="anonimo" /> Denunciar anonimamente</label>
+            <button class="btn primary" type="submit">Enviar denúncia</button>
+          </div>
+
+          <div id="denuncia-msg" style="margin-top:12px" aria-live="polite"></div>
+        </form>
+
+      </div>
+    </section>
+
+    <footer>
+      <div>
+        <strong>Fim do Trabalho Escravo</strong>
+        <div class="muted" style="font-size:13px">Material educativo e informativo — não substitui atendimento profissional.</div>
+      </div>
+      <div class="muted">Feito para fins educativos <span id="year"></span></div>
+    </footer>
+
+  </main>
+
+  <!-- Leaflet JS -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-o9N1j7kXc2b8gG7r6i9dWvQ1r9z4k5mKpX0fY1w7r3s=" crossorigin=""></script>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Fade-in reveal on scroll
+    const reveals = document.querySelectorAll('.reveal');
+    const io = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('visible'); });
+    }, {threshold:0.12});
+    reveals.forEach(r=>io.observe(r));
+
+    // Animated counters
+    function animateCounters(){
+      document.querySelectorAll('.counter').forEach(el=>{
+        const target = +el.dataset.target;
+        let start = 0; const dur = 1600; const step = (timestamp)=>{
+          if(!el._t0) el._t0 = timestamp; const progress = Math.min((timestamp - el._t0)/dur,1);
+          el.textContent = Math.floor(progress * target).toLocaleString('pt-BR');
+          if(progress < 1) requestAnimationFrame(step);
+        };
+        requestAnimationFrame(step);
+      });
+    }
+    // Start counters when visible
+    const statSection = document.querySelector('.stats');
+    if(statSection){
+      const st = new IntersectionObserver((entries)=>{ if(entries[0].isIntersecting) { animateCounters(); st.disconnect(); } },{threshold:0.2});
+      st.observe(statSection);
+    }
+
+    // Leaflet map setup (centered on Brazil) - illustrative markers
+    const mapEl = document.getElementById('map');
+    if(mapEl){
+      const map = L.map('map', {attributionControl:false}).setView([-14.2350,-51.9253], 4);
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {maxZoom:19}).addTo(map);
+
+      // Example markers (illustrative) — replace with dados reais via API se tiver
+      const markers = [
+        {lat:-3.10194,lon:-60.025,txt:'Região Norte — ação de fiscalização (exemplo)'},
+        {lat:-12.9704,lon:-38.5124,txt:'Nordeste — acolhimento e reinserção (exemplo)'},
+        {lat:-23.5505,lon:-46.6333,txt:'Sudeste — operação conjunta (exemplo)'}
+      ];
+      markers.forEach(m=>L.marker([m.lat,m.lon]).addTo(map).bindPopup(m.txt));
+
+      // Make map accessible: allow focus and keyboard
+      mapEl.tabIndex = 0;
+    }
+
+    // Quiz grading
+    function gradeQuiz(){
+      const form = document.getElementById('quiz-form');
+      const fields = ['q1','q2','q3','q4'];
+      let score = 0; let unanswered = 0;
+      fields.forEach(name=>{
+        const el = form.querySelector('[name="'+name+'"]:checked');
+        if(el) score += Number(el.value); else unanswered++;
+      });
+      const res = document.getElementById('quiz-result');
+      if(unanswered){ res.innerHTML = '<div class="muted">Por favor responda todas as perguntas antes de ver o resultado.</div>'; return; }
+
+      let text = '';
+      if(score >= 10) text = '<div style="color:var(--success);font-weight:700">Alerta: há vários sinais fortes de exploração. Considere denunciar e procurar órgãos competentes.</div>';
+      else if(score >=6) text = '<div style="color:#b35b00;font-weight:700">Possível risco: existem indicativos importantes — observe e, se possível, busque informações adicionais ou denuncie.</div>';
+      else text = '<div class="muted">Sinais leves ou inconclusivos. Fique atento e, se necessário, procure orientação.</div>';
+      res.innerHTML = text + '<div style="margin-top:8px;color:var(--muted)">Pontuação: <strong>'+score+'</strong> de 12</div>';
+    }
+
+    // Fake submit handler — demonstrativo apenas (mostra instruções)
+    function submitDenuncia(e){
+      e.preventDefault();
+      const form = e.target;
+      const descricao = form.descricao.value.trim();
+      const msg = document.getElementById('denuncia-msg');
+      if(!descricao){ msg.innerHTML = '<div class="muted">Por favor descreva o caso.</div>'; return false; }
+
+      msg.innerHTML = '<div style="color:var(--success);font-weight:700">Denúncia registrada localmente (demonstração). Para enviar oficialmente, ligue para Disque 100 ou procure o Ministério Público do Trabalho.</div>';
+      form.reset();
+      return false;
+    }
+
+    // Accessibility: enable keyboard selection for option labels in quiz
+    document.addEventListener('keydown', (ev) => {
+      // allow space/enter to toggle focused label's input
+      const active = document.activeElement;
+      if((ev.code === 'Space' || ev.code === 'Enter') && active && active.tagName === 'LABEL'){
+        const input = active.querySelector('input'); if(input){ input.checked = true; ev.preventDefault(); }
+      }
+    });
+
+    // Make option labels focusable for keyboard users
+    document.querySelectorAll('.options label').forEach(l=>{ l.tabIndex = 0; l.style.cursor = 'pointer'; });
+
+  </script>
+</body>
+</html>
