@@ -1,0 +1,291 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Trabalho Escravo contemporâneo</title>
+
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;500;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body, html{height:100%; font-family:'Lora', serif; scroll-behavior: smooth; font-size:1.2rem; line-height:1.8;}
+  body{
+    margin:0;
+    background: url('https://rioniteroinoticiasonline.files.wordpress.com/2018/05/32267341_1644255842355759_4200421893150343168_n.jpg') center/cover no-repeat fixed;
+    color:#fff;
+  }
+
+  .overlay{
+    background-color: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(5px);
+    min-height:100%;
+    padding:40px 25px;
+    transition: background-color 0.5s ease;
+  }
+
+  .wrap{max-width:1100px;margin:0 auto;}
+  header{text-align:center;margin-bottom:40px;}
+  header h1{
+    font-family:'Playfair Display', serif;
+    font-size:3.5rem;
+    color:#fff;
+    margin-bottom:10px;
+    text-shadow: 2px 2px 12px rgba(0,0,0,0.6);
+    letter-spacing:1px;
+    transition: color 0.3s ease, text-shadow 0.3s ease;
+  }
+  header p{
+    font-size:1.5rem;
+    color:#fff;
+    font-weight:500;
+    transition: color 0.3s ease;
+  }
+
+  nav ul{
+    display:flex;flex-wrap:wrap;justify-content:center;list-style:none;margin-top:25px;gap:14px;
+  }
+  nav a{
+    padding:14px 20px;
+    border-radius:18px;
+    background: rgba(0, 0, 0,0.35);
+    color:#fff;
+    text-decoration:none;
+    font-weight:700;
+    transition: background 0.3s ease, transform 0.3s ease, color 0.3s ease;
+    font-family:'Playfair Display', serif;
+    letter-spacing:0.8px;
+    font-size:1.1rem;
+  }
+  nav a:hover{
+    background: rgba(0, 100, 200,0.5);
+    transform:translateY(-4px);
+    color:#fff;
+  }
+
+  .section{
+    background: rgba(0,0,0,0.5);
+    border-radius:20px;
+    box-shadow:0 12px 38px rgba(0,0,0,0.4);
+    padding:32px;
+    margin-bottom:28px;
+    transition: transform 0.4s ease, box-shadow 0.4s ease, background 0.4s ease;
+  }
+  .section:hover{
+    transform:translateY(-8px);
+    box-shadow:0 18px 50px rgba(0,0,0,0.5);
+    background: rgba(0,0,0,0.6);
+  }
+
+  .section h2{
+    color:#fff;
+    margin-bottom:18px;
+    font-family:'Playfair Display', serif;
+    font-size:2.5rem;
+    text-shadow: 1px 1px 5px rgba(0,0,0,0.6);
+    letter-spacing:1px;
+    transition: color 0.3s ease, text-shadow 0.3s ease;
+  }
+
+  ul li{margin-bottom:14px; font-size:1.2rem; color:#fff;}
+  
+  .highlight{
+    background: rgba(255,255,255,0.6);
+    padding:16px;
+    border-radius:18px;
+    color:#000;
+    margin-top:16px;
+    display:inline-block;
+    font-family:'Playfair Display', serif;
+    font-weight:700;
+    box-shadow: 0 5px 14px rgba(0,0,0,0.4);
+    letter-spacing:0.8px;
+    transition: background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+    cursor:pointer;
+  }
+  .highlight:hover{
+    background: rgba(255,255,255,0.8);
+    transform:translateY(-3px);
+    box-shadow: 0 7px 18px rgba(0,0,0,0.5);
+  }
+
+  footer{
+    text-align:center;
+    color:#fff;
+    margin-top:60px;
+    font-size:1.1rem;
+    transition: color 0.3s ease;
+  }
+
+  /* Quizz */
+  .quiz-question{margin-bottom:20px; font-size:1.3rem; color:#fff;}
+  .quiz-options button{
+    display:block;
+    width:100%;
+    margin-bottom:12px;
+    padding:12px;
+    border:none;
+    border-radius:14px;
+    background: rgba(0, 0, 0,0.4);
+    color:#fff;
+    font-weight:600;
+    cursor:pointer;
+    transition: background 0.3s ease, transform 0.2s ease;
+    text-align:left;
+    font-size:1.15rem;
+  }
+  .quiz-options button:hover{
+    background: rgba(0,100,200,0.5);
+    transform:translateX(4px);
+    color:#fff;
+  }
+  .quiz-feedback{
+    margin-top:8px;
+    font-weight:700;
+    font-size:1.1rem;
+    color:#fff;
+  }
+
+  @media(max-width:900px){nav ul{flex-direction:column;gap:12px;}}
+</style>
+</head>
+<body>
+<div class="overlay">
+  <div class="wrap">
+    <header>
+      <h1>🚨Combate ao trabalho escravo contemporâneo</h1>
+      <p>Trabalho escravo contemporâneo é uma realidade que afeta milhões de pessoas em todo o mundo.</p>
+      <nav>
+        <ul>
+          <li><a href="#oque">Contexto</a></li>
+          <li><a href="#formas">Formas</a></li>
+          <li><a href="#sinais">Sinais</a></li>
+          <li><a href="#leis">Leis</a></li>
+          <li><a href="#denunciar">Denunciar</a></li>
+          <li><a href="#quizz">Quizz</a></li>
+          <li><a href="https://www.gov.br/pt-br/servicos" target="_blank">Serviços</a></li>
+          <li><a href="https://www.mpt.mp.br" target="_blank">Ministério Público</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <section id="oque" class="section">
+      <h2>📖 Contexto e como ele se aplica</h2>
+      <p>O <strong>trabalho escravo contemporâneo</strong> no Brasil é uma consequência direta da <strong>herança da escravidão colonial</strong> e das profundas desigualdades sociais que persistem até hoje. Mesmo após a abolição em 1888, muitos trabalhadores, especialmente em áreas rurais e marginalizadas, continuam sendo explorados em condições que violam sua <strong>dignidade</strong> e <strong>direitos fundamentais</strong>.</p>
+      <p>De acordo com o <strong>artigo 149 do Código Penal</strong>, o trabalho em condição análoga à de escravo ocorre quando há:</p>
+      <ul>
+        <li><strong>Trabalho forçado:</strong> coerção física ou psicológica.</li>
+        <li><strong>Jornada exaustiva:</strong> sem descanso adequado.</li>
+        <li><strong>Condições degradantes:</strong> alojamentos precários, higiene inadequada.</li>
+        <li><strong>Servidão por dívida:</strong> dívidas manipuladas para manter trabalhadores presos.</li>
+      </ul>
+      <div class="highlight">Entender o contexto atual é essencial para combater essa grave violação de direitos humanos.</div>
+    </section>
+
+    <section id="formas" class="section">
+      <h2>🔍 Formas modernas</h2>
+      <ul>
+        <li>🚫 Trabalho forçado: coerção física ou psicológica.</li>
+        <li>⏰ Jornadas exaustivas: sem descanso adequado.</li>
+        <li>🏚️ Condições degradantes: alojamentos e higiene precários.</li>
+        <li>🧭 Servidão por dívida: dívidas manipuladas para manter pessoas presas.</li>
+      </ul>
+    </section>
+
+    <section id="sinais" class="section">
+      <h2>⚠️ Sinais de alerta</h2>
+      <ul>
+        <li>Documentos retidos pelo empregador.</li>
+        <li>Restrição de locomoção e vigilância constante.</li>
+        <li>Medo de falar ou reclamar.</li>
+        <li>Crianças ou adolescentes em atividades perigosas.</li>
+      </ul>
+    </section>
+
+    <section id="leis" class="section">
+      <h2>📜 Leis e direitos</h2>
+      <p>O artigo 149 do Código Penal Brasileiro define o crime de trabalho análogo à escravidão. Existem punições criminais e medidas administrativas, além de convenções internacionais que o Brasil segue.</p>
+      <div class="highlight">O direito à liberdade e dignidade é inegociável!</div>
+    </section>
+
+    <section id="denunciar" class="section">
+      <h2>📞 Como denunciar</h2>
+      <ul>
+        <li>Disque 100 — gratuito, anônimo e 24h.</li>
+        <li>Sistema Ipê — portal do Ministério do Trabalho.</li>
+        <li>Ministério Público do Trabalho — investigações e punições.</li>
+      </ul>
+      <a href="#" class="highlight">Denunciar agora</a>
+    </section>
+
+    <!-- Quizz interativo -->
+    <section id="quizz" class="section">
+      <h2>📝 Quizz: Teste seus conhecimentos</h2>
+      <p>Responda as perguntas abaixo para testar seu conhecimento sobre trabalho escravo contemporâneo.</p>
+
+      <div class="quiz">
+        <div class="quiz-question">1. O que caracteriza o trabalho em condição análoga à de escravo?</div>
+        <div class="quiz-options">
+          <button onclick="checkAnswer(this, true)">Trabalho forçado, jornada exaustiva, condições degradantes ou servidão por dívida</button>
+          <button onclick="checkAnswer(this, false)">Apenas trabalho em fábricas</button>
+          <button onclick="checkAnswer(this, false)">Qualquer emprego formal</button>
+        </div>
+        <div class="quiz-feedback"></div>
+
+        <div class="quiz-question">2. Qual artigo do Código Penal define o crime de trabalho escravo?</div>
+        <div class="quiz-options">
+          <button onclick="checkAnswer(this, true)">Artigo 149</button>
+          <button onclick="checkAnswer(this, false)">Artigo 121</button>
+          <button onclick="checkAnswer(this, false)">Artigo 200</button>
+        </div>
+        <div class="quiz-feedback"></div>
+
+        <div class="quiz-question">3. Cite dois setores onde o trabalho escravo é mais comum.</div>
+        <div class="quiz-options">
+          <button onclick="checkAnswer(this, true)">Agricultura e pecuária</button>
+          <button onclick="checkAnswer(this, false)">Tecnologia e serviços bancários</button>
+          <button onclick="checkAnswer(this, false)">Educação e saúde</button>
+        </div>
+        <div class="quiz-feedback"></div>
+      </div>
+
+      <div id="final-score" class="highlight" style="display:none; margin-top:20px;"></div>
+    </section>
+
+    <footer>
+      💡 Site educativo. Use os canais oficiais para denúncias e informações atualizadas.
+    </footer>
+  </div>
+</div>
+
+<script>
+  let score = 0;
+  let answeredQuestions = 0;
+  const totalQuestions = document.querySelectorAll('.quiz-question').length;
+
+  function checkAnswer(button, correct){
+    const feedback = button.parentElement.nextElementSibling;
+    if(correct){
+      feedback.textContent = "✅ Correto!";
+      feedback.style.color = "#0f0";
+      score++;
+    } else {
+      feedback.textContent = "❌ Errado!";
+      feedback.style.color = "#f55";
+    }
+
+    const options = button.parentElement.querySelectorAll("button");
+    options.forEach(btn => btn.disabled = true);
+
+    answeredQuestions++;
+
+    if(answeredQuestions === totalQuestions){
+      const final = document.getElementById('final-score');
+      final.style.display = "block";
+      final.textContent = `🎉 Você acertou ${score} de ${totalQuestions} perguntas! Continue aprendendo e ajudando a combater o trabalho escravo.`;
+    }
+  }
+</script>
+</body>
+</html>
