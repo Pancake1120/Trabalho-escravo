@@ -147,6 +147,11 @@
     color:#fff;
   }
 
+  input, textarea{
+    font-family:'Lora', serif;
+    font-size:1.1rem;
+  }
+
   @media(max-width:900px){nav ul{flex-direction:column;gap:12px;}}
 </style>
 </head>
@@ -164,6 +169,7 @@
           <li><a href="#leis">Leis</a></li>
           <li><a href="#denunciar">Denunciar</a></li>
           <li><a href="#quizz">Quizz</a></li>
+          <li><a href="#form-denuncia">Formulário</a></li>
           <li><a href="https://www.gov.br/pt-br/servicos" target="_blank">Serviços</a></li>
           <li><a href="https://www.mpt.mp.br" target="_blank">Ministério Público</a></li>
         </ul>
@@ -216,7 +222,7 @@
         <li>Sistema Ipê — portal do Ministério do Trabalho.</li>
         <li>Ministério Público do Trabalho — investigações e punições.</li>
       </ul>
-      <a href="#" class="highlight">Denunciar agora</a>
+      <a href="#form-denuncia" class="highlight">Denunciar agora</a>
     </section>
 
     <!-- Quizz interativo -->
@@ -245,12 +251,33 @@
         <div class="quiz-options">
           <button onclick="checkAnswer(this, false)">Educação e saúde</button>
           <button onclick="checkAnswer(this, false)">Tecnologia e serviços bancários</button>
-          <button onclick="checkAnswer(this, true)">Agricultura e pecuaria</button>
+          <button onclick="checkAnswer(this, true)">Agricultura e pecuária</button>
         </div>
         <div class="quiz-feedback"></div>
       </div>
 
       <div id="final-score" class="highlight" style="display:none; margin-top:20px;"></div>
+    </section>
+
+    <!-- Nova seção: formulário de denúncia -->
+    <section id="form-denuncia" class="section">
+      <h2>📄 Formulário de Denúncia</h2>
+      <p>Preencha os campos abaixo para simular uma denúncia de trabalho escravo. Este é apenas um formulário educativo.</p>
+
+      <form id="denuncia-form">
+        <label for="nome">Nome (opcional):</label><br>
+        <input type="text" id="nome" name="nome" placeholder="Seu nome" style="width:100%; padding:10px; margin-bottom:12px; border-radius:8px; border:none;"><br>
+
+        <label for="local">Local da denúncia:</label><br>
+        <input type="text" id="local" name="local" placeholder="Cidade, estado" style="width:100%; padding:10px; margin-bottom:12px; border-radius:8px; border:none;"><br>
+
+        <label for="descricao">Descrição do caso:</label><br>
+        <textarea id="descricao" name="descricao" rows="5" placeholder="Descreva a situação" style="width:100%; padding:10px; margin-bottom:12px; border-radius:8px; border:none;"></textarea><br>
+
+        <button type="submit" class="highlight">Enviar denúncia</button>
+      </form>
+
+      <div id="denuncia-feedback" class="highlight" style="display:none; margin-top:16px;"></div>
     </section>
 
     <footer>
@@ -286,8 +313,25 @@
       final.textContent = `🎉 Você acertou ${score} de ${totalQuestions} perguntas! Continue aprendendo e ajudando a combater o trabalho escravo.`;
     }
   }
+
+  // Formulário de denúncia educativo
+  document.getElementById('denuncia-form').addEventListener('submit', function(e){
+    e.preventDefault();
+    const nome = document.getElementById('nome').value || "Anônimo";
+    const local = document.getElementById('local').value;
+    const descricao = document.getElementById('descricao').value;
+
+    if(!local || !descricao){
+      alert("Por favor, preencha os campos obrigatórios!");
+      return;
+    }
+
+    const feedback = document.getElementById('denuncia-feedback');
+    feedback.style.display = "block";
+    feedback.textContent = `✅ Obrigado, ${nome}! Sua denúncia simulada foi recebida.`;
+
+    this.reset();
+  });
 </script>
 </body>
 </html>
-
-
